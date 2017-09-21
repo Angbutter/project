@@ -1,0 +1,281 @@
+/**
+* Backyard
+* Landing Page Template
+* Author: MoxDesign - http://www.moxdesign.com
+**/
+@import url(font-awesome.min.css);
+@import url("http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Raleway:400,800,900");
+
+a {
+	color: #3eb0f7;
+	outline: 0;
+	font-weight: bold;
+	-webkit-transition: all .8s ease;
+	transition: all .8s ease;
+}
+
+p a{
+		text-decoration: none
+	}
+
+.highlight {
+	color: #3eb0f7;
+}
+
+.btn-default {
+	font-size: 17px;
+	margin: 30px 0 10px;
+	margin-right: 10px;
+	line-height: 20px;
+	padding: 15px 35px;
+	height: 50px;
+	border: 2px solid #3eb0f7;
+	background: transparent;
+	transition: all 0.4s;
+	color: #3eb0f7;
+	border-radius: 100px;
+}
+.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
+	border: 2px solid #3eb0f7;
+	background: #3eb0f7;
+	color: white;
+}
+.btn-primary {
+	font-size: 17px;
+	margin: 30px 0 10px;
+	margin-right: 10px;
+	line-height: 20px;
+	padding: 15px 35px;
+	height: 50px;
+	border: 2px solid #3eb0f7;
+	background: #3eb0f7;
+	transition: all 0.4s;
+	color: white;
+	border-radius: 100px;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+	border: 2px solid #3eb0f7;
+	background: transparent;
+	color: #3eb0f7;
+}
+.btn-secondary {
+	font-size: 20px;
+	font-weight: 300;
+	line-height: 20px;
+	padding: 20px 50px;
+	height: 65px;
+	border: none;
+	background: #3eb0f7;
+	transition: all 0.4s;
+	color: white;
+	border-radius: 4px;
+}
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active, .btn-secondary.active, .open > .dropdown-toggle.btn-secondary {
+	background: #1f96e0;
+	color: white
+}
+
+.btn-price {
+	margin: 5px 0 15px;
+	font-size: 17px;
+	padding: 7px 35px;
+	height: 40px;
+	background: #3eb0f7;
+	transition: all 0.4s;
+	color: white;
+	border-radius: 4px;	
+}
+.btn-price:hover {
+	background: #1f96e0;
+	color: white;
+}
+#client {
+	background: #f6f6f6;
+	padding: 70px 0 70px;
+}
+#client img {
+	max-height: 80px;
+	margin: 0 20px;
+	opacity: 1;
+	transition: all 0.3s ease;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+}
+#client img:hover {
+	opacity: 0.7;
+	transition: all 0.3s ease;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+}
+#testi {
+	padding: 100px 0 100px;
+}
+.testi-item {
+	display: block;
+	width: 100%;
+	height: auto;
+	position: relative;
+	margin-top: 30px;
+}
+.testi-item .box {
+	margin-right: 15px;
+	margin-left: 15px;
+}
+.testi-item .box .message {
+	padding: 20px;
+	font-style: italic;
+	line-height: 30px;
+	font-weight: 300;
+	font-size: 20px;
+}
+.testi-item .client-pic img {
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	max-width: 100%;
+}
+.testi-item .client-info .client-name {
+	margin-top: 10px;
+	font-size: 16px;
+}
+.testi-item .client-info .company {
+	font-style: italic;
+	color: #3eb0f7;
+}
+.owl-theme .owl-controls .owl-page span{
+	background: #3eb0f7;
+}
+
+.ul-address a {
+	font-weight: normal;
+}
+.ul-address a:hover {
+	color: white;
+}
+.ul-address li {
+	padding-right: 20px; 
+	margin-bottom: 8px; 
+	list-style: none;
+	color: white;
+}
+.ul-address i {
+	margin-left: 15px;
+	position: absolute; 
+	left: 0;
+	color: #3eb0f7; 
+	font-size: 25px;
+	line-height: 30px;
+}
+.contact-row {
+	margin: 100px 0 100px;
+}
+#contact-form {
+	margin: 0 auto;
+}
+#contact-form input {
+	position: relative;
+	padding: 5px 25px;
+	width: 100%;
+}
+#contact-form textarea {
+	position: relative;
+	padding: 10px 25px;
+	width: 100%;
+	height: 120px !important;
+}
+#contact-form .form-control {
+	border-radius: 0;
+	border: solid 1px #dadada;
+	background-color: #fff;
+	color: #333;
+	font-size: 1.2em;
+	height: 55px;
+}
+#contact-form .btn {
+	height: 55px;
+	width: 100%;
+	background-color: #3eb0f7;
+	color: #ffffff;
+	font-size: 17px !important;
+	line-height: 18px;
+	padding: 0 33px;
+	border: none;
+	border-radius: 0;
+	margin: 0;
+	-webkit-transition: all .8s ease;
+	transition: all .8s ease;
+}
+#contact-form .btn:hover {
+	background-color: #1f96e0;
+	-webkit-transition: all .8s ease;
+	transition: all .8s ease;
+}
+#footer {
+	background: #fff;
+	padding: 50px 0 50px;
+}
+.social ul {
+	padding: 0;
+	list-style: none;
+}
+.social li {
+	display: inline-block;
+	padding-right: .3em;
+	padding-bottom: .3em;
+}
+.social li a {
+	display: block;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	color: #3eb0f7;
+	border-radius: 50%;
+	background: #fff;
+	border: solid 1px #3eb0f7;
+	-webkit-transition: all .8s ease;
+	transition: all .8s ease;
+}
+.social li a:hover {
+	color: #fff;
+	background: #3eb0f7;
+}
+.table > thead > tr > th { 
+	background: #3eb0f7; 
+	color: #fff; 
+	border-bottom: 0; 
+	text-transform: uppercase; 
+}
+.table > thead > tr > th, 
+.table > tbody > tr > td { 
+	font-size: 15px; 
+	font-weight: 300; 
+	padding: 20px 20px; 
+}
+.table-bg > tbody > tr:nth-child(odd) > td, 
+.table-bg > tbody > tr:nth-child(odd) > th { 
+	background: #fff; 
+}
+.table-bg > tbody > tr:nth-child(even) > td, 
+.table-bg > tbody > tr:nth-child(even) > th { 
+	background: #fff; 
+}
+.scrollToTop{
+	width: 40px; 
+	height: 40px;
+	padding: 5px;
+	font-size: 30px;
+	text-align: center; 
+	background: rgba(0, 0, 0, 0.2);
+	color: white;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	border-radius: 50%;
+	display: none;
+}
+.scrollToTop:hover{
+	color: #3eb0f7;
+}
+.control-group .controls {
+	overflow-x: hidden;
+}

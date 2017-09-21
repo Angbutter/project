@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CalMapper">
+   
+   <select id="getCalList" parameterType="String" resultType="map">
+		select emp_no
+		     , calday
+		     , caltitle
+		     , calcontent 
+		  from calmemo 
+		 where emp_no = #{emp_no}
+   </select>
+   <insert id="calInsert" parameterType="map">
+   		insert into calmemo(emp_no,calday,caltitle,calcontent)
+ 		             values(#{emp_no}, #{calday}, #{caltitle}, #{calcontent})
+   </insert>
+   
+   <update id="calUpdate" parameterType="map">
+		UPDATE calmemo
+		   SET caltitle = #{caltitle}
+		     , calcontent = #{calcontent}
+		 WHERE emp_no = #{emp_no}
+		   AND calday = #{calday}
+   </update>
+   <delete id="calDelete" parameterType="map">
+		DELETE FROM calmemo
+		 WHERE emp_no = #{emp_no}
+		   AND calday = #{calday}
+		   AND caltitle = #{caltitle}
+	</delete>
+</mapper>

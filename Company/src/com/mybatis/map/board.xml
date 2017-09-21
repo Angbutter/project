@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardMapper">
+	<select id="getBoardEmp" resultType="map">
+        SELECT rownum rnum
+             , emp_name
+             , board_emp_no
+             , board_emp_title
+             , emp_no    
+             , board_emp_date
+             , board_emp_hit
+             , board_emp_content
+             , board_emp_pw
+          FROM (
+                      SELECT emp_name
+                          , board_emp_title
+                          , emp_no
+                          , board_emp_no   
+                          , board_emp_date
+                          , board_emp_hit
+                          , board_emp_content
+                         , board_emp_pw
+                        FROM board_emp
+                    ORDER BY board_emp_no)
+      ORDER BY rnum desc
+	</select>
+	<update id="hitUpdate" parameterType="map">
+		UPDATE board_emp
+		   SET board_emp_hit = board_emp_hit+1
+		 WHERE board_emp_no = #{board_emp_no}
+	</update>
+	<insert id="boardIns" parameterType="map">
+		INSERT INTO board_emp(board_emp_no
+		                    , emp_no
+		                    , emp_name
+		                    , board_emp_title
+		                    , board_emp_content
+		                    , board_emp_date
+		                    , board_emp_pw )
+		               values(board_emp_seq_no.nextval
+		                    , #{emp_no}
+		                    , #{emp_name}
+		                    , #{board_emp_title}
+		                    , #{board_emp_content}
+		                    , #{board_emp_date}
+		                    , #{board_emp_pw})
+	</insert>
+	<delete id="boardDel" parameterType="map">
+		DELETE FROM board_emp 
+		 WHERE board_emp_no = #{board_emp_no}
+		   AND board_emp_pw = #{board_emp_pw}
+	</delete>
+	<update id="boardUpd" parameterType="map">
+		UPDATE board_emp
+		   SET board_emp_title = #{board_emp_title}
+		     , board_emp_content = #{board_emp_content}
+		     , board_emp_hit = board_emp_hit+1
+		 WHERE board_emp_pw = #{board_emp_pw}
+		   AND board_emp_no = #{board_emp_no}
+	</update>
+	<select id="boardList" resultType="map" parameterType="map">
+		SELECT
+		      rownum rnum
+		     ,vboard.board_no, vboard.emp_no, vboard.emp_name, vboard.jikup, vboard.board_title
+		     , vboard.board_text, vboard.board_date, vboard.board_level 
+		  FROM (
+		        SELECT rownum rnum
+		              ,board_no, emp_no, emp_name, jikup, board_title, board_text, board_date, board_level    
+		          FROM board
+		       )vboard
+		<where>
+<!-- 페이지 구간 검색 시작 -->
+        <if test="start > 0">
+             <![CDATA[ AND vboard.rnum >= #{start} ]]>      
+        </if> 	
+        <if test="end > 0">
+             <![CDATA[ AND vboard.rnum <= #{end} ]]>     
+        </if> 	
+<!-- 페이지 구간 검색  끝  -->   	  		 
+        </where> 		
+		  ORDER BY board_date desc, board_no desc
+	</select>
+	<insert id="boardInsert" parameterType="map">
+		INSERT INTO board(board_no, emp_no, emp_name, jikup, board_title, board_text, board_date, board_level)
+		VALUES(board_no_sq.nextval, #{emp_no}, #{emp_name}, #{jikup}, #{board_title}, #{board_text}, TO_CHAR(sysdate, 'YYYY-MM-DD'), #{board_level})
+	</insert>
+	<update id="boardUpdate" parameterType="map">
+		UPDATE board
+		   SET 
+	      	   board_title = #{board_title}
+		   	   ,board_text = #{board_text}
+		   	   ,board_level = #{board_level}
+		 WHERE board_no = #{board_no}
+	</update>
+	<select id="getTotal" resultType="map" parameterType="string">
+		SELECT count(board_no) total, 1 temp FROM board
+	</select>	
+</mapper>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberMapper">
+	<select id="getMemName" parameterType="String" resultType="String">
+		SELECT name FROM mm WHERE id = #{mem_id} AND pw = #{mem_pw}
+	</select>
+	<select id="getEmployee" parameterType="map" resultType="map">
+		SELECT rownum rnum, emp_no, deptm_name, authority_no, emp_name, jikup, salary, hiredate, phone_num, email, emp_pw, gender 
+		  FROM employee
+		<where>
+			<if test="jikup != null and jikup != ''">
+				AND jikup = #{jikup}
+			</if>
+			<if test="deptm_name != null and deptm_name != ''">
+				AND deptm_name = #{deptm_name}
+			</if>
+            <if test="shiredate !=null and ehiredate!=null and shiredate != '' and ehiredate != ''">
+               <![CDATA[ AND hiredate BETWEEN #{shiredate} AND #{ehiredate} ]]>
+            </if>
+		</where>
+		ORDER BY rnum
+	</select>
+	<select id="loginLogic" parameterType="map" resultType="string">
+		SELECT emp_name 
+		  FROM employee 
+		 WHERE emp_no = #{emp_no}
+		   AND emp_pw = #{emp_pw}
+	</select>
+	<select id="pwFind" parameterType="map" resultType="string">
+		 SELECT
+       				translate(UPPER(emp_pw)
+              				 ,'SYAQXC80GJ5B7LNM1E3D4IH9P6OWT2RUVFKZ'
+               				 ,'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890') emp_pw
+  		   FROM employee
+ 	      WHERE email=#{email}
+	</select>
+	<update id="pwUpdate" parameterType="map">
+		UPDATE employee
+		   SET emp_pw = #{emp_pw}
+		 WHERE email = #{email}
+	</update>
+	<update id="empUpd" parameterType="map">
+		UPDATE employee
+		   SET emp_pw = #{board_emp_pw2}
+		     , email = #{email}
+		 WHERE emp_pw = #{board_emp_pw}
+	</update>
+	<select id="getDeptList" parameterType="map" resultType="map">
+		SELECT deptm_no, deptm_name FROM deptm
+		ORDER BY deptm_no
+	</select>
+	<insert id="empInsert" parameterType="map">
+		INSERT INTO employee(emp_no
+		                   , deptm_no
+		                   , authority_no
+		                   , emp_name
+		                   , jikup
+		                   , salary
+		                   , hiredate
+		                   , deptm_name
+		                   , phone_num
+		                   , email
+		                   , gender
+		                   , emp_pw)
+		              VALUES(#{emp_no}
+		                   , #{deptm_no}
+		                   , #{authority_no}
+		                   , #{emp_name}
+		                   , #{jikup}
+		                   , #{salary}
+		                   , #{hiredate}
+		                   , #{deptm_name}
+		                   , #{phone_num}
+		                   , #{email}
+		                   , #{gender}
+		                   , #{emp_pw}
+		                   )
+	</insert>
+	<delete id="empDelete" parameterType="map">
+		DELETE FROM employee WHERE emp_no = #{emp_no}
+	</delete>
+	<update id="empUpdate" parameterType="map">
+		UPDATE employee
+		   SET deptm_no = #{deptm_no}
+		     , authority_no = #{authority_no}
+		     , emp_name = #{emp_name}
+		     , jikup = #{jikup}
+		     , salary = #{salary}
+		     , hiredate = #{hiredate}
+		     , deptm_name = #{deptm_name}
+		     , phone_num = #{phone_num}
+		     , email = #{email}
+		     , gender = #{gender}
+		     , emp_pw = #{emp_pw}
+		 WHERE emp_no = #{emp_no}
+	</update>
+	
+	<insert id="deptInsert" parameterType="map">
+		INSERT INTO deptm(deptm_no, deptm_name) values(#{deptm_no},#{deptm_name})
+	</insert>
+	<delete id="deptDelete" parameterType="map">
+		DELETE FROM deptm WHERE deptm_no = #{deptm_no}
+	</delete>
+	<update id="deptUpdate" parameterType="map">
+		UPDATE deptm
+		   SET deptm_name = #{deptm_name}
+		 WHERE deptm_no = #{deptm_no}
+	</update>
+</mapper>

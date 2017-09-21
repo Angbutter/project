@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ApprovalMapper">
+	<select id="approvalList" resultType="map" parameterType="map">
+		SELECT
+		      rownum rnum
+		     ,app.report_approval_no, app.emp_no, app.emp_name, app.approval_next_emp_no, app.jikup, app.approval_state, app.approval_date, app.section, app.approval_level, app.approval_title
+		     ,app.approval_reason, app.approval_use, app.approval_expense, app.approval_cash, app.approval_bigo
+		  FROM (
+		        SELECT rownum rnum
+		              ,report_approval_no, emp_no, emp_name, approval_next_emp_no, jikup, approval_state, approval_date, section, approval_level, approval_title, approval_reason
+		              ,approval_use, approval_expense, approval_cash, approval_bigo  
+		          FROM approval
+		       )app
+		<where>
+<!-- 페이지 구간 검색 시작 -->
+        <if test="start > 0">
+             <![CDATA[ AND app.rnum >= #{start} ]]>      
+        </if> 	
+        <if test="end > 0">
+             <![CDATA[ AND app.rnum <= #{end} ]]>     
+        </if>
+<!-- 페이지 구간 검색  끝  -->   	  		 
+        </where> 		
+		  ORDER BY approval_date desc, report_approval_no desc
+	</select>
+	<select id="angApprovalList" resultType="map" parameterType="string">
+      SELECT emp_no, emp_name
+        FROM employee
+       WHERE deptm_name = #{value}
+   </select>
+	<insert id="approvalInsert" parameterType="map">
+		INSERT INTO approval(report_approval_no
+					  	  , emp_no
+					  	  , emp_name
+					  	  , approval_next_emp_no
+					  	  , jikup
+					  	  , approval_date
+					  	  , section
+					  	  , approval_level
+					  	  , approval_title
+					  	  , approval_reason
+						  , approval_use
+						  , approval_expense
+						  , approval_cash)
+		VALUES(#{report_approval_no}
+		     , #{emp_no}
+		     , #{emp_name}
+		     , #{approval_next_emp_no}
+		     , #{jikup}
+		     , TO_CHAR(sysdate, 'YYYY-MM-DD') 
+		     , #{section}
+			 , #{approval_level}
+			 , #{approval_title}
+			 , #{approval_reason}
+			 , #{approval_use}
+			 , #{approval_expense}
+			 , #{approval_cash})
+	</insert>
+	<delete id="approvalDelete" parameterType="map">
+		DELETE FROM approval WHERE report_approval_no = #{report_approval_no}
+	</delete>
+</mapper>
+	

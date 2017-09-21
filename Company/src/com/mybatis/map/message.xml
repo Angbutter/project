@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MessageMapper">
+	<select id="getDeptmList" parameterType="string" resultType="java.util.Map">
+		SELECT emp_no, emp_name
+    	  FROM employee
+	   	<where>
+	    <if test="value!=null and value!=''">
+    	  deptm_name = #{value}
+	    </if>
+	    </where>
+	</select>
+	<insert id="sendMessage" parameterType="map">
+		INSERT INTO message(msg_no, emp_no, receive_emp_no, send_time, msg_title, msg_contents,emp_name)
+		            VALUES(msg_no_sq.nextval, #{emp_no}, #{receive_emp_no}, to_char(sysdate, 'yyyy-mm-dd hh24:mi'), #{msg_title}, #{msg_contents},#{emp_name})           
+	</insert>
+	<insert id="messageInsert" parameterType="map">
+		INSERT INTO message(msg_no, emp_no, receive_emp_no, 
+					msg_title, msg_contents, send_time)
+			VALUES(msg_no_sq.nextval, 
+					#{emp_no}, #{receive_emp_no}, 
+					#{msg_title}, #{msg_contents},TO_CHAR(sysdate,'YYYY-MM-DD HH24:MI'))
+	</insert>
+	<select id="sendMessageList" parameterType="map" resultType="map">
+		SELECT message.msg_no
+		      ,receive_emp_no
+		      ,employee.emp_name
+		      ,msg_title
+		      ,msg_contents
+		      ,send_time
+		      ,DECODE(reception_yn,'Y','개봉','N','미개봉') reception_yn
+		  FROM employee, message
+		 WHERE employee.emp_no = message.receive_emp_no
+		   AND message.emp_no = #{emp_no}
+		 ORDER BY send_time desc, msg_no desc
+	</select>
+	<select id="recvMessageList" parameterType="map" resultType="map">
+        SELECT msg.msg_no
+              ,emp.emp_no
+              ,receive_emp_no
+              ,msg.emp_name
+              ,msg_title
+              ,msg_contents
+              ,send_time
+              ,DECODE(reception_yn,'Y','개봉','N','미개봉') reception_yn
+          FROM employee emp, message msg
+          WHERE emp.emp_no= msg.emp_no
+          AND msg.receive_emp_no = #{receive_emp_no}
+          ORDER BY send_time desc, msg_no desc
+	</select>
+	<update id="messageUpdate">
+		UPDATE message
+			SET emp_no = #{emp_no},
+				receive_emp_no = #{receive_emp_no},
+				msg_title = #{msg_title},
+				msg_contents = #{msg_contents},
+				send_time = #{send_time}
+				reception_yn = #{reception_yn},
+		WHERE msg_no = #{msg_no}
+	</update>
+	<delete id="messageDelete" parameterType="map">
+		DELETE FROM message
+		WHERE msg_no = #{msg_no}
+	</delete>
+	<update id="messageReadYNUpdate" parameterType="int">
+		UPDATE message
+		   SET reception_yn = 'Y'
+		   where msg_no = #{value}
+	</update>
+</mapper>
