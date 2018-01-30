@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardMapper">
+	<insert id="trBoardIns" parameterType="map">
+		INSERT INTO M_TR_BOARD( tr_no
+					 		  , tr_gb
+					 		  , tr_id
+					 		  , tr_je
+					 		  , tr_ne
+					 		  , tr_de
+					 		  , tr_im
+					 		  , tr_pr
+					 		  , tr_hi
+					 		  , tr_yn) 
+				       VALUES(  SEQ_TR_NO.nextval
+				              , #{tr_gb}
+				              , #{tr_id}
+				              , #{tr_je}
+				              , #{tr_ne}
+				              , TO_CHAR(sysdate,'yyyy-mm-dd / hh24:mi:ss')
+				              , #{tr_im}
+				              , #{tr_pr}
+				              , 0
+				              , 'N')
+	</insert>
+	
+	<select id="trBoardList" resultType="map">
+		SELECT rownum as rnum
+               , A.TR_NO
+               , A.TR_GB
+               , A.TR_ID
+               , A.TR_JE
+               , A.TR_NE
+               , A.TR_DE
+               , A.TR_IM
+               , A.TR_PR
+               , A.TR_HI
+               , A.TR_YN
+           FROM ( 
+		           SELECT TR_NO
+		             	, TR_GB
+			            , TR_ID
+			            , TR_JE
+			            , TR_NE
+			            , TR_DE
+			            , TR_IM
+			            , TR_PR
+			            , TR_HI
+			            , TR_YN
+		         	 FROM M_TR_BOARD
+		         ORDER BY TR_DE desc
+		       ) A
+	   ORDER BY rnum desc
+	</select>
+	
+
+	
+	<select id="trSearchBoard" parameterType="map" resultType="map">
+		 SELECT rownum as rnum
+		      , A.TR_NO
+		      , A.TR_GB
+		      , A.TR_ID
+		      , A.TR_JE
+		      , A.TR_NE
+		      , A.TR_DE
+		      , A.TR_IM
+		      , A.TR_PR
+		      , A.TR_HI
+		      , A.TR_YN
+		   FROM
+ ( SELECT TR_NO
+             , TR_GB
+             , TR_ID
+             , TR_JE
+             , TR_NE
+             , TR_DE
+             , TR_IM
+             , TR_PR
+             , TR_HI
+             , TR_YN
+          FROM M_TR_BOARD
+         <where>
+            <if test="tr_option1 != 'all'">
+                AND TR_GB = #{tr_option1}
+            </if>
+            <if test="'tr_title'.equals(tr_option2)">
+                AND TR_JE LIKE '%'||#{tr_keyword}||'%'
+            </if>
+            <if test="'tr_writer'.equals(tr_option2)">
+                AND TR_ID LIKE '%'||#{tr_keyword}||'%'
+            </if>
+        </where>
+      ORDER BY TR_DE desc ) A
+ORDER BY rnum desc
+	</select>
+	
+	<select id="frSearchBoard" parameterType="map" resultType="map">
+		SELECT rownum as rnum
+	     , A.FR_NO
+	     , A.FR_ID
+	     , A.FR_DE
+	     , A.FR_JE
+	     , A.FR_NE
+	     , A.FR_IM
+	     , A.FR_HI
+	  FROM 
+	     (  SELECT FR_NO
+	             , FR_ID
+	             , FR_DE
+	             , FR_JE
+	             , FR_NE
+	             , FR_IM
+	             , FR_HI
+	          FROM M_FR_BOARD
+	       <where>
+	            <if test="'fr_title'.equals(fr_option)">
+	                AND FR_JE LIKE '%'||#{fr_keyword}||'%'
+	            </if>
+	            <if test="'fr_writer'.equals(fr_option)">
+	                AND FR_ID LIKE '%'||#{fr_keyword}||'%'
+	            </if>
+	        </where>
+	        ORDER BY FR_DE desc ) A
+	ORDER BY rnum desc
+	</select>
+	
+	<insert id="frBoardIns" parameterType="map">
+		INSERT INTO M_FR_BOARD( fr_no
+					 		  , fr_id
+					 		  , fr_je
+					 		  , fr_ne
+					 		  , fr_de
+					 		  , fr_im
+					 		  , fr_hi) 
+				       VALUES(  SEQ_FR_NO.nextval
+				              , #{fr_id}
+				              , #{fr_je}
+				              , #{fr_ne}
+				              , TO_CHAR(sysdate,'yyyy-mm-dd / hh24:mi:ss')
+				              , #{fr_im}
+				              , 0)
+	</insert>
+	
+	<select id="frBoardList" resultType="map">
+		SELECT rownum as rnum
+		     , A.FR_NO
+		     , A.FR_ID
+		     , A.FR_DE
+		     , A.FR_JE
+		     , A.FR_NE
+		     , A.FR_IM
+		     , A.FR_HI
+		  FROM ( SELECT FR_NO
+		             , FR_ID
+		             , FR_DE
+		             , FR_JE
+		             , FR_NE
+		             , FR_IM
+		             , FR_HI
+		          FROM M_FR_BOARD
+		      ORDER BY FR_DE desc ) A
+		ORDER BY rnum desc
+	</select>
+	
+	<select id="trBoardView" parameterType="int" resultType="map">
+		SELECT TR_NO
+		     , TR_GB
+		     , TR_ID
+		     , TR_JE
+		     , TR_NE
+		     , TR_DE
+		     , TR_IM
+		     , TR_PR
+		     , TR_HI
+		     , TR_YN
+		  FROM M_TR_BOARD
+		 WHERE TR_NO = #{value}
+	</select>
+	
+	<select id="frBoardView" parameterType="int" resultType="map">
+		SELECT FR_NO
+		     , FR_ID
+		     , FR_JE
+		     , FR_NE
+		     , FR_DE
+		     , FR_IM
+		     , FR_HI
+		  FROM M_FR_BOARD
+		 WHERE FR_NO = #{value}
+	</select>
+	
+	<update id="trHitUpd" parameterType="int">
+		UPDATE M_TR_BOARD
+		   SET TR_HI = TR_HI+1
+		 WHERE TR_NO = #{value}
+	</update>
+	
+	<update id="frHitUpd" parameterType="int">
+		UPDATE M_FR_BOARD
+		   SET FR_HI = FR_HI+1
+		 WHERE FR_NO = #{value}
+	</update>
+	
+	<update id="trUpd" parameterType="map">
+		UPDATE M_TR_BOARD
+		   SET TR_JE = #{tr_je}
+		     , TR_PR = #{tr_pr}
+		     , TR_NE = #{tr_ne}
+		 WHERE TR_NO = #{tr_no}
+	</update>
+	
+	<update id="trEnd" parameterType="map">
+		UPDATE M_TR_BOARD
+		   SET TR_JE = #{tr_je}
+		     , TR_YN = 'Y'
+		 WHERE TR_NO = #{tr_no}
+	</update>
+	
+	<update id="frUpd" parameterType="map">
+		UPDATE M_FR_BOARD
+		   SET FR_JE = #{fr_je}
+		     , FR_NE = #{fr_ne}
+		 WHERE FR_NO = #{fr_no}
+	</update>
+	
+	<delete id="trDel" parameterType="int">
+		DELETE FROM M_TR_BOARD
+		 WHERE TR_NO = #{value}
+	</delete>
+	
+	<delete id="frDel" parameterType="int">
+		DELETE FROM M_FR_BOARD
+		 WHERE FR_NO = #{value}
+	</delete>
+	
+	<insert id="scIns" parameterType="map">
+		INSERT INTO M_SC(mem_no
+					   , SC_NO
+					   , SC_DE
+					   , SC_JE
+					   , SC_NE)
+		        values(#{mem_no}
+		             , SEQ_SC_NO.nextval
+		             , #{sc_de}
+		             , #{sc_je}
+		             , #{sc_ne})
+	</insert>
+	
+	<select id="scList" parameterType="String" resultType="map">
+		SELECT MEM_NO
+			 , SC_NO
+		     , SC_DE
+		     , SC_JE
+		     , SC_NE
+		  FROM M_SC
+		 WHERE MEM_NO = #{mem_no}
+   </select>
+   
+ 	<select id="scMemList" parameterType="map" resultType="map">
+		SELECT MEM_NO
+		     , SC_DE
+		     , SC_JE
+		     , SC_NE
+		  FROM M_SC
+		 WHERE SC_NO = #{sc_no}
+   </select>
+   
+ 	<select id="searchScNo" parameterType="map" resultType="string">
+		SELECT SC_NO
+		  FROM M_SC
+		 WHERE MEM_NO = #{mem_no}
+		   AND SC_JE = #{sc_je}
+		   AND SC_DE = #{sc_de}
+   </select>
+   
+   	<update id="scUpd" parameterType="map">
+		UPDATE M_SC
+		   SET SC_JE = #{sc_je}
+		     , SC_NE = #{sc_ne}
+		 WHERE SC_NO = #{sc_no}
+	</update>
+	
+	<delete id="scDel" parameterType="int">
+		DELETE FROM M_SC
+		 WHERE SC_NO = #{value}
+	</delete>
+</mapper>

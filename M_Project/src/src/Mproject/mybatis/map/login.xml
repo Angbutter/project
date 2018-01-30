@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="LoginMapper">
+	<select id="login" parameterType="map" resultType="map">
+		SELECT mem_no
+		     , mem_nn
+		     , mem_nm
+		     , mem_em
+		  FROM M_MEM 
+		 WHERE mem_id = #{mem_id}
+		   AND mem_pw = #{mem_pw}
+	</select>
+	
+	<select id="jungbok" parameterType="string" resultType="string">
+		SELECT mem_nm
+		  FROM M_MEM
+		 WHERE mem_id = #{mem_id}
+	</select>
+	
+	<insert id="signup" parameterType="map">
+		INSERT INTO M_MEM( mem_no
+						 , mem_id
+						 , mem_pw
+						 , mem_nm
+						 , mem_nn
+						 , mem_te
+						 , mem_em
+						 , mem_yn) 
+			      VALUES(  SEQ_MEM_NO.nextval
+			             , #{mem_id}
+			             , #{mem_pw}
+			             , #{mem_nm}
+			             , #{mem_nn}
+			             , #{mem_te}
+			             , #{mem_em}
+			             , 'N')
+	</insert>
+	
+	<select id="pwFind" parameterType="map" resultType="string">
+		 SELECT
+       				translate(UPPER(mem_pw)
+              				 ,'SYAQXC80GJ5B7LNM1E3D4IH9P6OWT2RUVFKZ'
+               				 ,'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890') mem_pw
+  		   FROM M_MEM
+ 	      WHERE mem_em=#{mem_em}
+	</select>
+	
+	<update id="pwUpdate" parameterType="map">
+		UPDATE M_MEM
+		   SET mem_pw = #{mem_pw}
+		 WHERE mem_em = #{mem_em}
+	</update>
+	
+	<update id="memUpd" parameterType="map">
+		UPDATE M_MEM
+		   SET MEM_PW = #{mem_pw2}
+		     , MEM_EM = #{mem_em}
+		     , MEM_NN = #{mem_nn}
+		 WHERE MEM_ID = #{mem_id}
+		   AND MEM_PW = #{mem_pw1}
+	</update>
+	
+	<delete id="memDel" parameterType="int">
+		DELETE FROM M_MEM
+		 WHERE MEM_NO = #{value}
+	</delete>
+</mapper>
